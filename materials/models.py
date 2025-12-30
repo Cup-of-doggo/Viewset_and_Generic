@@ -1,3 +1,6 @@
+from tkinter.constants import CASCADE
+
+from django.conf import settings
 from django.db import models
 
 
@@ -21,6 +24,7 @@ class Course(models.Model):
     course_image = models.ImageField(upload_to="картинки/", verbose_name="Превью курса", null=True, blank=True)
     course_description = models.TextField(verbose_name="Описание курса", blank=True, null=True)
     lesson_in_course = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name="Уроки курса", null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True, blank=True)
 
     class Meta:
         verbose_name = "Курс"
