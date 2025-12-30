@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Lesson(models.Model):
-    lesson_name = models.CharField(max_length=255, verbose_name="Название урока")
+    lesson_name = models.CharField(max_length=255, verbose_name="Название урока", null=True)
     lesson_description = models.TextField(verbose_name="Описание урока", blank=True, null=True)
     lesson_image = models.ImageField(upload_to="картинки/", verbose_name="Превью урока", null=True, blank=True)
     link = models.URLField(max_length=500, verbose_name="Ссылка на видео", blank=True)
