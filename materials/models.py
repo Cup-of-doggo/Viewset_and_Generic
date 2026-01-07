@@ -1,4 +1,4 @@
-from tkinter.constants import CASCADE
+
 
 from django.conf import settings
 from django.db import models
@@ -35,8 +35,8 @@ class Course(models.Model):
 
 
 class Subscription(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE, verbose_name="Пользователь", null=True)
-    course = models.ForeignKey("Course", on_delete=models.CASCADE, verbose_name="Курс", null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь", null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс", null=True)
     is_subscribe = models.BooleanField(verbose_name='Подписка',null=True, blank=True, default=True)
 
     class Meta:

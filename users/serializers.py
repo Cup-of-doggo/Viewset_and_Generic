@@ -29,9 +29,3 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         return token
 
-
-
-class GroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Group
-        fields = ['id', 'name']

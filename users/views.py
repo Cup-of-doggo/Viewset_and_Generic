@@ -1,11 +1,10 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
-from rest_framework import generics, viewsets
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from users.models import Payments, User, Group
-from users.permissions import IsOwnerOrStaff
-from users.serializers import PaymentsSerializer, MyTokenObtainPairSerializer, UserSerializer, GroupSerializer
+from users.models import Payments, User
+from users.serializers import PaymentsSerializer, MyTokenObtainPairSerializer, UserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 
@@ -47,8 +46,3 @@ class UserDestroyApiView(generics.DestroyAPIView):
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
 
-
-class GroupViewSet(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    permission_classes = [IsOwnerOrStaff]
