@@ -38,3 +38,5 @@ class LessonUpdateApiView(generics.UpdateAPIView):
 class LessonDestroyApiView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
     permission_classes = [IsOwnerOrStaff]
+
+

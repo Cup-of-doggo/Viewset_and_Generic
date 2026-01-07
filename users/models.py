@@ -44,3 +44,11 @@ class Payments(models.Model):
     def __str__(self):
         return (f'Пользователь: {self.user}, дата оплаты: {self.payment_date}, '
                 f'сумма оплаты: {self.payment_summ}, оплаченный курс: {self.paid_course}, оплата {self.payment_method}')
+
+
+class Group(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name="Пользователь")
+
+    class Meta:
+        verbose_name = "Группа"
+        verbose_name_plural = "Группы"
