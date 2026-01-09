@@ -8,10 +8,11 @@ from .views import MyTokenObtainPairView
 app_name = UsersConfig.name
 
 router = DefaultRouter()
+router.register(r'Payments', PaymentsListApiView, basename='payments_list')
+
 
 urlpatterns = [
     path('users/', UserCreateApiView.as_view(), name='user_create'),
-    path('payments/', PaymentsListApiView.as_view(), name='payments_list'),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ] + router.urls
