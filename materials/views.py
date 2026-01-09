@@ -23,6 +23,9 @@ class LessonCreateApiView(generics.CreateAPIView):
     queryset = Lesson.objects.all()
     permission_classes = [IsOwnerOrStaff]
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 class LessonListApiView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
