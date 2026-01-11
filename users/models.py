@@ -26,6 +26,10 @@ class Payments(models.Model):
     payment_date = models.DateField(verbose_name="Дата оплаты")
     paid_course = models.ForeignKey(Course, on_delete=models.PROTECT, verbose_name="Оплаченный курс")
     payment_summ = models.IntegerField(verbose_name="Сумма оплаты")
+    session_id = models.AutoField(primary_key=True)
+    link = models.URLField(max_length=50, verbose_name='Ссылка на оплату')
+
+
 
     CASH = "cash"
     CARD = "card"
