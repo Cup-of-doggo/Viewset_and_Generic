@@ -53,6 +53,11 @@ class UserListApiView(generics.ListAPIView):
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
 
+    def perform_create(self, serializer):
+        active_users = serializer.save(user=self.request.user)
+        active_users.block_inactive_users()
+        active_users.save()
+
 class UserRetrieveApiView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()

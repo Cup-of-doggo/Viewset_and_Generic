@@ -25,6 +25,8 @@ class Course(models.Model):
     course_image = models.ImageField(upload_to="картинки/", verbose_name="Превью курса", null=True, blank=True)
     course_description = models.TextField(verbose_name="Описание курса", blank=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_update = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Курс"
@@ -37,7 +39,7 @@ class Course(models.Model):
 class Subscription(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь", null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс", null=True)
-    is_subscribe = models.BooleanField(verbose_name='Подписка',null=True, blank=True, default=True)
+    is_subscribe = models.BooleanField(verbose_name='Подписка',null=True, blank=True, default=False)
 
     class Meta:
         verbose_name = "Подписка"

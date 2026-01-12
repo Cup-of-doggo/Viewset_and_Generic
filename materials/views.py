@@ -4,6 +4,7 @@ from materials.paginators import LessonCoursePaginator
 from materials.serializers import CourseSerializer, LessonSerializer
 from rest_framework.permissions import IsAuthenticated
 
+from materials.tasks import distribution
 from users.permissions import IsOwnerOrStaff
 
 
@@ -17,6 +18,9 @@ class CourseViewSet(viewsets.ModelViewSet):
         new_course = serializer.save()
         new_course.owner = self.request.user
         new_course.save()
+        updated_course = serializer.save()
+        distribution.delay(updated_course.course_id, self.request.user)
+
 
 class LessonCreateApiView(generics.CreateAPIView):
     serializer_class = LessonSerializer

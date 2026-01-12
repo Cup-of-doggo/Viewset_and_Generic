@@ -12,6 +12,7 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to="users/", verbose_name="Аватар", null=True, blank=True)
     phone = models.CharField(max_length=20, verbose_name="Телефон", null=True, blank=True)
     city = models.CharField(max_length=100, verbose_name="Город", null=True, blank=True)
+    last_login = models.DateTimeField("дата последнего входа", auto_now=False, null=True, blank=True)
 
     class Meta:
         verbose_name = "Пользователь"
@@ -27,7 +28,7 @@ class Payments(models.Model):
     paid_course = models.ForeignKey(Course, on_delete=models.PROTECT, verbose_name="Оплаченный курс")
     payment_summ = models.IntegerField(verbose_name="Сумма оплаты")
     session_id = models.AutoField(primary_key=True)
-    link = models.URLField(max_length=50, verbose_name='Ссылка на оплату')
+    link = models.URLField(max_length=50, verbose_name='Ссылка на оплату', blank=True, null=True)
 
 
 
