@@ -34,7 +34,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 class LessonCreateApiView(generics.CreateAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    # permission_classes = [IsOwnerOrStaff]
+    permission_classes = [IsOwnerOrStaff]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
