@@ -13,6 +13,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
+from celery.schedules import crontab
 
 from django.conf.global_settings import AUTH_USER_MODEL
 
@@ -106,9 +107,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('NAME'),
+#         'USER': os.getenv('USER'),
+#         'PASSWORD':os.getenv('PASSWORD'),
+#         'HOST': os.getenv('HOST'),
+#         'PORT': os.getenv('PORT'),
+#
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.getenv('NAME'),
         'USER': os.getenv('USER'),
         'PASSWORD':os.getenv('PASSWORD'),
@@ -117,6 +130,7 @@ DATABASES = {
 
     }
 }
+
 
 
 # Password validation
@@ -165,10 +179,10 @@ STRIPE_API_KEY =os.getenv('STRIPE_API_KEY')
 # Настройки для Celery
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
 
 # URL-адрес брокера результатов, также Redis
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 
 # Часовой пояс для работы Celery
 CELERY_TIMEZONE = "UTC"
@@ -180,8 +194,8 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BEAT_SCHEDULE = {
-    'task-name': {
-        'task': 'materials.tasks.block_inactive_users',  # Путь к задаче
-        'schedule': timedelta(days=30),  # Расписание выполнения задачи
+    'block-inactive-users': {
+        'task': 'materials.tasks.block_inactive_users',
+        'schedule': crontab(hour=0, minute=0, day_of_month='1'),
     },
 }

@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
 from materials.models import Course
+from django.urls import reverse
 
 class LessonTestCase(APITestCase):
 
@@ -17,13 +18,13 @@ class LessonTestCase(APITestCase):
         data = {
             'lesson_name':'test_name',
             'lesson_description':'test_text',
-            'lesson_image':'test_image',
-            'link':'youtube.com',
+            # 'lesson_image':'test_image',
+            'link':'https://www.youtube.com/',
             'course':self.course.id
         }
 
-        response = self.client.post('/lesson/create/', data=data)
-
+        response = self.client.post(reverse('materials:lesson_create'), data=data)
+        print(response.data)
         self.assertEqual(
             response.status_code,
             status.HTTP_201_CREATED

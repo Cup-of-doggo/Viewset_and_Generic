@@ -12,6 +12,7 @@ class Lesson(models.Model):
     lesson_image = models.ImageField(upload_to="картинки/", verbose_name="Превью урока", null=True, blank=True)
     link = models.URLField(max_length=500, verbose_name="Ссылка на видео", blank=True)
     course = models.ForeignKey("Course", on_delete=models.CASCADE, verbose_name="Курс", related_name="lessons", null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         verbose_name = "Урок"
@@ -25,7 +26,7 @@ class Course(models.Model):
     course_image = models.ImageField(upload_to="картинки/", verbose_name="Превью курса", null=True, blank=True)
     course_description = models.TextField(verbose_name="Описание курса", blank=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     last_update = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -51,7 +52,7 @@ class Subscription(models.Model):
     def post(self, *args, **kwargs):
 
         user = self.requests
-        course_id = self.reqests.data
+        course_id = self.requests.data
         course_item = get_object_or_404
         subs_item = user, course_id, course_item
 

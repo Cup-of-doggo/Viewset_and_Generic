@@ -8,7 +8,7 @@ class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = '__all__'
-        validators = [LessonValidator(field='link'), LessonValidator(field='lesson_name')]
+        validators = [LessonValidator(field='link')]
 
 class CourseSerializer(serializers.ModelSerializer):
     lessons_counter = serializers.SerializerMethodField()
