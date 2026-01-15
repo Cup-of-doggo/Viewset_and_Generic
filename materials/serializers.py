@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from materials.models import Course, Lesson
+from materials.models import Course, Lesson, Subscription
 from materials.validators import LessonValidator
 
 
@@ -25,6 +25,8 @@ class CourseSerializer(serializers.ModelSerializer):
             return obj.lessons.count()
 
     @staticmethod
-    def is_subscribe(obj):
-        if obj.is_subscribe == True:
-            return obj
+    def is_subscribed(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return Subscription.objects.filter(user=request.user, course=obj).exists()
+        return False

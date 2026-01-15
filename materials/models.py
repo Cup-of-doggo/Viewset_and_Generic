@@ -48,17 +48,3 @@ class Subscription(models.Model):
 
     def __str__(self):
         return f"{self.user}, {self.course}"
-
-    def post(self, *args, **kwargs):
-
-        user = self.requests
-        course_id = self.requests.data
-        course_item = get_object_or_404
-        subs_item = user, course_id, course_item
-
-        if subs_item.exists():
-            message = 'подписка удалена'
-        else:
-            message = 'подписка добавлена'
-
-        return Response({"message": message})
