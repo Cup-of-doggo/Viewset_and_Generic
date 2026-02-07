@@ -1,0 +1,10 @@
+
+NAME= your name in postgres
+USER= your postgres
+PASSWORD= your postgres password
+HOST= your postgres host
+PORT= your postgres port
+
+SECRET_KEY= your secret django key
+
+STRIPE_API_KEY= your api key
