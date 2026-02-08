@@ -7,17 +7,18 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = '__all__'
-        validators = [LessonValidator(field='link')]
+        fields = "__all__"
+        validators = [LessonValidator(field="link")]
+
 
 class CourseSerializer(serializers.ModelSerializer):
     lessons_counter = serializers.SerializerMethodField()
-    lesson_info = LessonSerializer(source='lessons', read_only=True, many=True)
+    lesson_info = LessonSerializer(source="lessons", read_only=True, many=True)
     is_subscribe = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = "__all__"
 
     @staticmethod
     def get_lessons_counter(obj):
@@ -26,7 +27,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_is_subscribe(self, obj):
-        request = self.context.get('request')
+        request = self.context.get("request")
         if request and request.user.is_authenticated:
             return Subscription.objects.filter(user=request.user, course=obj).exists()
         return False

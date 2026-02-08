@@ -5,10 +5,17 @@ from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from users.models import Payments, User
-from users.serializers import PaymentsSerializer, MyTokenObtainPairSerializer, UserSerializer
+from users.serializers import (
+    PaymentsSerializer,
+    MyTokenObtainPairSerializer,
+    UserSerializer,
+)
 from rest_framework_simplejwt.views import TokenObtainPairView
-from users.services import create_stripe_product, create_stripe_price, create_stripe_session
-
+from users.services import (
+    create_stripe_product,
+    create_stripe_price,
+    create_stripe_session,
+)
 
 
 class PaymentsListApiView(viewsets.ModelViewSet):
@@ -19,7 +26,6 @@ class PaymentsListApiView(viewsets.ModelViewSet):
     search_fields = ["user__email", "course__name"]
     ordering_fields = ["payment_date"]
     permission_classes = [IsAuthenticated]
-
 
     def perform_create(self, serializer):
         payment = serializer.save(user=self.request.user)
@@ -37,6 +43,7 @@ class PaymentsListApiView(viewsets.ModelViewSet):
         payment.session_id = session_id
         payment.link = session_url
         payment.save()
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -58,17 +65,19 @@ class UserListApiView(generics.ListAPIView):
         active_users.block_inactive_users()
         active_users.save()
 
+
 class UserRetrieveApiView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
+
 
 class UserUpdateApiView(generics.UpdateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
 
+
 class UserDestroyApiView(generics.DestroyAPIView):
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
-

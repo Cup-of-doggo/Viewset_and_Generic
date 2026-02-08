@@ -19,18 +19,18 @@ def distribution(course_id, user_id):
         return
 
     # Проверяем подписку через модель Subscription
-    subscription = Subscription.objects.filter(user=user, course=course, is_subscribe=True).first()
+    subscription = Subscription.objects.filter(
+        user=user, course=course, is_subscribe=True
+    ).first()
 
     if subscription and subscription.is_subscribe:
         send_mail(
-            subject=f'Обновление курса {course.course_name}',
-            message=f'Курс {course.course_name} был обновлен. Проверьте новые материалы!',
+            subject=f"Обновление курса {course.course_name}",
+            message=f"Курс {course.course_name} был обновлен. Проверьте новые материалы!",
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[user.email],
             fail_silently=False,
         )
-
-
 
 
 @shared_task
@@ -40,13 +40,9 @@ def block_inactive_users():
     User = get_user_model()
 
     inactive_users = User.objects.filter(
-        is_active=True,
-        is_staff=False,
-        is_superuser=False,
-        last_login__lt=one_month_ago
+        is_active=True, is_staff=False, is_superuser=False, last_login__lt=one_month_ago
     )
 
     count = inactive_users.update(is_active=False)
 
     return f"Заблокировано пользователей: {count}"
-

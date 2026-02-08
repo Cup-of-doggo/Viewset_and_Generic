@@ -6,22 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0003_alter_user_options_remove_user_username_user_avatar_and_more'),
+        ("users", "0003_alter_user_options_remove_user_username_user_avatar_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='payments',
-            name='id',
+            model_name="payments",
+            name="id",
         ),
         migrations.AddField(
-            model_name='payments',
-            name='link',
-            field=models.URLField(blank=True, max_length=50, null=True, verbose_name='Ссылка на оплату'),
+            model_name="payments",
+            name="link",
+            field=models.URLField(
+                blank=True, max_length=50, null=True, verbose_name="Ссылка на оплату"
+            ),
         ),
         migrations.AddField(
-            model_name='payments',
-            name='session_id',
+            model_name="payments",
+            name="session_id",
             field=models.AutoField(primary_key=True, serialize=False),
         ),
     ]

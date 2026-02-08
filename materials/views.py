@@ -27,9 +27,9 @@ class CourseViewSet(viewsets.ModelViewSet):
         updated_course = serializer.save()
 
         from materials.models import Subscription
+
         subscriptions = Subscription.objects.filter(
-            course=updated_course,
-            is_subscribe=True
+            course=updated_course, is_subscribe=True
         )
         for subscription in subscriptions:
             distribution.delay(updated_course.pk, subscription.user.pk)
@@ -43,16 +43,19 @@ class LessonCreateApiView(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+
 class LessonListApiView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated]
     pagination_class = LessonCoursePaginator
 
+
 class LessonRetrieveApiView(generics.RetrieveAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated]
+
 
 class LessonUpdateApiView(generics.UpdateAPIView):
     serializer_class = LessonSerializer
@@ -66,12 +69,13 @@ class LessonUpdateApiView(generics.UpdateAPIView):
             course.save()
 
             from materials.models import Subscription
+
             subscriptions = Subscription.objects.filter(
-                course=course,
-                is_subscribe=True
+                course=course, is_subscribe=True
             )
             for subscription in subscriptions:
                 distribution.delay(course.pk, subscription.user.pk)
+
 
 class LessonDestroyApiView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
@@ -84,15 +88,15 @@ class SubscriptionAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         user = request.user
-        course_id = request.data.get('course')
+        course_id = request.data.get("course")
         course_item = get_object_or_404(Course, pk=course_id)
 
         subs_item = Subscription.objects.filter(user=user, course=course_item)
 
         if subs_item.exists():
-            message = 'Подписка уже активирована'
+            message = "Подписка уже активирована"
         else:
             Subscription.objects.create(user=user, course=course_item)
-            message = 'Подписка добавлена'
+            message = "Подписка добавлена"
 
         return Response({"message": message})

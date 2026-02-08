@@ -5,15 +5,15 @@ stripe.api_key = STRIPE_API_KEY
 
 
 def create_stripe_product(product):
-    stripe_product = stripe.Product.create(name=product.name, description=product.description)
+    stripe_product = stripe.Product.create(
+        name=product.name, description=product.description
+    )
     return stripe_product
 
 
 def create_stripe_price(stripe_product, amount):
     price = stripe.Price.create(
-        currency="rub",
-        unit_amount=amount * 100,
-        product=stripe_product.get("id")
+        currency="rub", unit_amount=amount * 100, product=stripe_product.get("id")
     )
     return price
 
